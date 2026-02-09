@@ -28,7 +28,7 @@ ipcMain.handle("getDataPath", event => {
   return getDataPath();
 });
 
-function initApp() {
+export function initApp() {
   const instanceId = process.argv.find(arg => arg.startsWith('--instance=')) || '--instance=1';
   const id = instanceId.split('=')[1];
   app.setPath('userData', path.join(app.getPath('appData'), `xhznl-todo-list/instance-${id}`));
@@ -36,7 +36,6 @@ function initApp() {
 }
 
 export function initExtra() {
-  initApp();
   const storePath = getDataPath();
   DB.initDB(storePath);
 

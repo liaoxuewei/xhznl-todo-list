@@ -5,11 +5,11 @@ import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 //import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
-import { initExtra, createTray, createAppMenu } from "@/utils/backgroundExtra";
+import { initApp, initExtra, createTray, createAppMenu } from "@/utils/backgroundExtra";
 
 import { autoUpdater } from "electron-updater";
 
-import windowStateKeeper from "electron-window-state";
+//import windowStateKeeper from "electron-window-state";
 
 import pkg from "../package.json";
 
@@ -33,6 +33,8 @@ protocol.registerSchemesAsPrivileged([
 createAppMenu();
 
 async function createWindow() {
+  const windowStateKeeper = require('electron-window-state');
+
   // Load the previous state with fallback to defaults
   let mainWindowState = windowStateKeeper({
     defaultWidth: 320,
@@ -144,6 +146,7 @@ app.on("ready", async () => {
 });
 
 function init() {
+  initApp();
   createWindow();
   initExtra();
   createTray(showWindow);
