@@ -15,6 +15,7 @@ import pkg from "../package.json";
 
 let win;
 
+/*
 if (app.requestSingleInstanceLock()) {
   app.on("second-instance", (event, commandLine, workingDirectory) => {
     if (win) {
@@ -22,8 +23,9 @@ if (app.requestSingleInstanceLock()) {
     }
   });
 } else {
-  //app.quit();
+  app.quit();
 }
+*/
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
