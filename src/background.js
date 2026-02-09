@@ -22,7 +22,7 @@ if (app.requestSingleInstanceLock()) {
     }
   });
 } else {
-  app.quit();
+  //app.quit();
 }
 
 // Scheme must be registered before the app is ready

@@ -16,6 +16,8 @@ import ExcelJS from "exceljs";
 
 import { getNowDateTimeForFlieName } from "@/utils/common";
 
+const { logToFile } = require('./logger');
+
 let tray;
 
 export function getDataPath() {
@@ -26,7 +28,15 @@ ipcMain.handle("getDataPath", event => {
   return getDataPath();
 });
 
+function initApp() {
+  const instanceId = process.argv.find(arg => arg.startsWith('--instance=')) || '--instance=1';
+  const id = instanceId.split('=')[1];
+  app.setPath('userData', path.join(app.getPath('appData'), `xhznl-todo-list/instance-${id}`));
+  //logToFile("userData:" + app.getPath('userData'));
+}
+
 export function initExtra() {
+  initApp();
   const storePath = getDataPath();
   DB.initDB(storePath);
 
@@ -76,10 +86,22 @@ export function createTray(showWindow) {
         dialog.showMessageBox({
           title: pkg.name,
           message: pkg.description,
-          detail: `Version: ${pkg.version}\nAuthor: ${pkg.author}\nGithub: https://github.com/xiajingren/xhznl-todo-list`
+          detail: `Version: ${pkg.version}\nAuthor: ${pkg.author}\nGithub: https://github.com/xiajingren/xhznl-todo-list\nuserDataPath: ${getDataPath()}`
         });
       }
     },
+	/*
+    {
+      label: "测试",
+      click() {
+        dialog.showMessageBox({
+          title: pkg.name,
+          message: pkg.description,
+          detail: `userDataPath: ${getDataPath()}`
+        });
+      }
+    },
+	*/
     {
       label: "退出",
       role: "quit"
